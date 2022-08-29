@@ -6,7 +6,7 @@ export default function CardSide(){
    const[caption, setCaption] =  useState(" ")
 
    const newCard = () => {
-      fetch('http://localhost:8080/api/cards/random', {})
+      fetch('http://localhost:8081/api/cards/random', {})
 
       .then((response)=>response.json())
       .then((actual)=> setCatData(actual))
@@ -17,7 +17,7 @@ export default function CardSide(){
    useEffect(newCard, [])
 
    const saveCard = () => {
-      fetch("http://localhost:8080/api/cards",
+      fetch("http://localhost:8081/api/cards",
          {
             method: 'POST',
             cache: 'no-cache',

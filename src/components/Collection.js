@@ -5,7 +5,7 @@ function Collection() {
    const[collectionData, setCollectionData] = useState([])
 
    const fetchSaved = () => {
-      fetch('http://localhost:8080/api/cards', {})
+      fetch('http://localhost:8081/api/cards', {})
 
       .then((response)=>response.json())
       .then((actual)=> {
