@@ -21,6 +21,16 @@ useEffect(() => {
 
 useEffect(() => {
     fetch("http://localhost:8080/api/cards")
-    .then
+    .then(data => setCatCard(prevCatCard => ({
+        ...prevCatCard,
+        catPic:data.file
+    })))
+}, [])
+
+return (
+    <div id = "cat_card">
+        <h4>{catCard.catFact}Testing</h4>
+        <img src = {catCard.catPic} />
+    </div>
+    )
 }
-)
