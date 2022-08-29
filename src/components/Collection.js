@@ -1,49 +1,33 @@
-import { Card, CardImg, CardBody, CardText } from "reactstrap";
-import { FaEdit, FaRegTrashAlt } from "react-icons/fa";
-import React from "react";
+import React, {useEffect,useState} from "react";
+import CatCard from './CatCard'
 
-function RenderCollection({ cards, deleteHandler, editHandler }) {
-  return (
-    <Card>
-      <CardImg src={cards.imgUrl} alt="cat" className="collection-pic" />
-      <CardBody>
-        <CardText>{cards.caption}</CardText>
+function Collection() {
+   const[collectionData, setCollectionData] = useState([])
 
-        <div id="collection_btns">
-          <button
-            onClick={(e) => {
-              editHandler(e, cards.catCardId);
-            }}
-          >
-            <FaEdit />
-          </button>
-          <button
-            onClick={(e) => {
-              deleteHandler(e, cards.catCardId);
-            }}
-          >
-            <FaRegTrashAlt />
-          </button>
-        </div>
-      </CardBody>
-    </Card>
-  );
-}
+   const fetchSaved = () => {
+      fetch('http://localhost:8080/api/cards', {})
 
-const Collection = (props) => {
-  const collections = props.collection.map((cards, id) => {
-    return (
-      <div key={id}>
-        <RenderCollection
-          deleteHandler={props.deleteHandler}
-          editHandler={props.editHandler}
-          cards={cards}
-        />
-      </div>
-    );
-  });
+      .then((response)=>response.json())
+      .then((actual)=> {
+         setCollectionData(actual)
+         console.log(actual)
+      })
 
-  return <>{collections}</>;
+
+      }
+
+   useEffect(fetchSaved, [])
+
+   return (
+      <div>
+
+         {collectionData.map(catData=>{
+            return(<CatCard key={catData.catCardId} catFact={catData.catFact} imgUrl={catData.imgUrl} caption={catData.caption}/>)
+         })}
+         </div>
+   )
+
+
 };
 
 export default Collection;

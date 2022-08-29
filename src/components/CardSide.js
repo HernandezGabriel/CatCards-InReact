@@ -3,7 +3,7 @@ import CatCard from './CatCard'
 
 export default function CardSide(){
    const[catData, setCatData] = useState({})
-   const[caption, setCaption] =  useState("")
+   const[caption, setCaption] =  useState(" ")
 
    const newCard = () => {
       fetch('http://localhost:8080/api/cards/random', {})
@@ -24,10 +24,10 @@ export default function CardSide(){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(
             {
-               catCardId: 80,
-               catFact: "A cat's tongue has tiny barbs on it.",
-               imgUrl: "https://cat-data.netlify.app/images/orange-and-white-cat-sleeping-in-yellow-blanket-600x600.jpg",
-               caption: "caption254354"
+               catCardId: 0,
+               catFact: `${catData.catFact}`,
+               imgUrl: `${catData.imgUrl}`,
+               caption: `${caption}`,
            })
 
 
@@ -40,7 +40,13 @@ export default function CardSide(){
       <div>
          <CatCard catFact={catData.catFact} imgUrl={catData.imgUrl}/>
 
-         <input onChange={event => setCaption(event.target.value)}
+         <input onChange={event => {
+            if(!event.target.value){
+               setCaption(" ")
+            } else{
+               setCaption(event.target.value)
+            }}}
+
             id="caption_box" type="text" placeholder="Caption me!"/>
 
          <div id="button_holder">
