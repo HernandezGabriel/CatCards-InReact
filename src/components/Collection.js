@@ -3,8 +3,6 @@ import CatCard from './CatCard'
 
 function Collection(props) {
 
-   const updateCard = (event) => {
-      }
    return (
       <div>
 
