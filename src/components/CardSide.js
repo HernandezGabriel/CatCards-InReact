@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from "react";
 import CatCard from './CatCard'
 
-export default function CardSide(){
+export default function CardSide(props){
    const[catData, setCatData] = useState({})
    const[caption, setCaption] =  useState(" ")
 
@@ -33,6 +33,7 @@ export default function CardSide(){
 
          }).then(response=>console.log(response))
          .catch(e=>console.log(e))
+         .then(props.updateCollections)
    }
 
 

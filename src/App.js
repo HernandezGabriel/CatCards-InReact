@@ -1,19 +1,29 @@
 import './App.css';
-import CatCard from './components/CatCard'
 import CardSide from './components/CardSide';
 import Collection from './components/Collection';
+import React, {useEffect,useState} from "react";
+
 
 function App() {
-  return (
-    <>
-    <body>
-    <h1 className = "CatCard">CatCard</h1>
-      <CardSide/>
-    <h2 className = "Collection Header">Your CatCard Collection</h2>
-      <Collection/>
-    </body>
-    </>
+  const[collectionData, setCollectionData] = useState([])
 
+  const fetchSaved = () => {
+    fetch('http://localhost:8080/api/cards', {})
+
+    .then((response)=>response.json())
+    .then((actual)=> {
+       setCollectionData(actual)
+       console.log(actual)
+    })
+    }
+
+    useEffect(fetchSaved, [])
+  return (
+    <div>
+    <CardSide  updateCollections={fetchSaved} />
+    <h2>Your Collection</h2>
+    <Collection collectionData={collectionData} updateCollections={fetchSaved}/>
+  </div>
   );
 }
 
