@@ -1,36 +1,50 @@
-import React, {useEffect,useState} from "react";
+import { Card, CardImg, CardTitle, } from "reactstrap";
+import { FaSave, FaCaretSquareRight, FaCat} from "react-icons/fa";
 
-export default function NewCatCard(){
-    const[catCard, setCatCard] = useState({
-        catFact: "",
-        catPic: "",
-    })
 
-useEffect(() => {
-    console.log("ran catFact")
-    fetch("http://localhost:8080/api/cards", {
-        mode: "no-cors",
-        headers: {
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(catCard),
-})
-        .then(response =>response.json())
-        .then(data => setCatCard(data.text))
-    }, [])
+const CatCard = (props) => {
+  return (
+    <>
+      <Card id="cat_card">
+        <CardTitle id="cat_fact">{props.catCard.catFact}</CardTitle>
+        <CardImg src={props.catCard.imgUrl} alt="cat" id="cat_pic" />
+      </Card>
+      <input
+        onChange={(e) => {
+          props.updateCaption(e.target.value);
+        }}
+        type="text"
+        placeholder="Caption me!"
+        id="caption_box"
+      />
 
-useEffect(() => {
-    fetch("http://localhost:8080/api/cards")
-    .then(data => setCatCard(prevCatCard => ({
-        ...prevCatCard,
-        catPic:data.file
-    })))
-}, [])
+      <div id="button_holder">
+        <button
+          onClick={() => {
+            props.saveCatCard(props.saveCaption);
+            const input = document.getElementById("caption_box");
+            input.value = "";
+            if (props.catCard.caption < 1) {
+              alert("Caption must like exist or something");
+            }
+            props.fetchCollection();
+          }}
+          id="save_btn"
+        >
+          <FaSave /> Save <FaCat /> To Collection
+        </button>
 
-return (
-    <div id = "cat_card">
-        <h4>{catCard.catFact}Testing</h4>
-        <img src = {catCard.catPic} />
-    </div>
-    )
-}
+        <button
+          onClick={() => {
+            props.fetchCatCard();
+          }}
+          id="next_btn"
+        >
+          Get Next <FaCat /> Card <FaCaretSquareRight />
+        </button>
+      </div>
+    </>
+  );
+};
+
+export default CatCard;
